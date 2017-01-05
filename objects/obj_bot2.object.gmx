@@ -193,42 +193,43 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Generate initial commands
-/*
-0 - Move left
-1 - Move right
-2 - Jump
-3 - Shoot press
-4 - Shoot release
-*/
-num_initial_cmds = room_speed * 5; // 5 seconds worth of input
-
-var i = 0;
-
-while (i &lt; num_initial_cmds)
+            <string>if (global.revert &amp;&amp; global.restart == 0)
+    global.cmds2 = global.prev_cmds2;
+else
 {
-    var r = irandom(4);
+    global.prev_cmds2 = global.cmds2; // save prev commands
     
-    global.cmds2[i] = r;
-    if (r == 0 || r == 1) // minimum movement times
+    // mutate commands
+    var i = 0;
+    
+    while (i &lt; global.cmds_size2)
     {
-        i++;
-        j = irandom_range(room_speed * 0.25, room_speed * 1);
-        if (j &gt; (num_initial_cmds - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
-            j = num_initial_cmds - i - 2;
-        while (j &gt; 0)
+        var q = irandom(19);
+    
+        if (q == 0 || global.restart)
         {
+            var r = irandom(4);
+            
             global.cmds2[i] = r;
-            i++;
-            j--;
+            if (r == 0 || r == 1) // minimum movement times
+            {
+                i++;
+                j = irandom_range(room_speed * 0.25, room_speed * 1);
+                if (j &gt; (global.cmds_size2 - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
+                    j = global.cmds_size2 - i - 2;
+                while (j &gt; 0)
+                {
+                    global.cmds2[i] = r;
+                    i++;
+                    j--;
+                }
+            }
+            else // other than movements
+                i++;
         }
     }
-    else // other than movements
-        i++;
+    
 }
-
-global.cmds_size2 = num_initial_cmds;
-global.current_command2 = 0;
 </string>
           </argument>
         </arguments>
@@ -1273,7 +1274,9 @@ global.current_command2++;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (i = 0; i &lt; global.health2; i++)
+            <string>var i;
+
+for (i = 0; i &lt; global.health2; i++)
 {
     draw_sprite(sp_heart, 0, room_width - 150 + 50 * i, 15);
 }

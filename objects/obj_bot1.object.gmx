@@ -193,42 +193,43 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Generate initial commands
-/*
-0 - Move left
-1 - Move right
-2 - Jump
-3 - Shoot press
-4 - Shoot release
-*/
-num_initial_cmds = room_speed * 5; // 5 seconds worth of input
-
-var i = 0;
-
-while (i &lt; num_initial_cmds)
+            <string>if (global.revert &amp;&amp; global.restart == 0)
+    global.cmds1 = global.prev_cmds1;
+else
 {
-    var r = irandom(4);
+    global.prev_cmds1 = global.cmds1; // save prev commands
     
-    global.cmds1[i] = r;
-    if (r == 0 || r == 1) // minimum movement times
+    // mutate commands
+    var i = 0;
+    
+    while (i &lt; global.cmds_size1)
     {
-        i++;
-        j = irandom_range(room_speed * 0.25, room_speed * 1);
-        if (j &gt; (num_initial_cmds - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
-            j = num_initial_cmds - i - 2;
-        while (j &gt; 0)
+        var q = irandom(19);
+    
+        if (q == 0 || global.restart)
         {
+            var r = irandom(4);
+            
             global.cmds1[i] = r;
-            i++;
-            j--;
+            if (r == 0 || r == 1) // minimum movement times
+            {
+                i++;
+                j = irandom_range(room_speed * 0.25, room_speed * 1);
+                if (j &gt; (global.cmds_size1 - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
+                    j = global.cmds_size1 - i - 2;
+                while (j &gt; 0)
+                {
+                    global.cmds1[i] = r;
+                    i++;
+                    j--;
+                }
+            }
+            else // other than movements
+                i++;
         }
     }
-    else // other than movements
-        i++;
+    
 }
-
-global.cmds_size1 = num_initial_cmds;
-global.current_command1 = 0;
 </string>
           </argument>
         </arguments>
@@ -261,48 +262,6 @@ global.current_command1 = 0;
       </action>
     </event>
     <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>612</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>-1</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_if_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>keyboard_check(vk_space)</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>1</string>
-          </argument>
-          <argument>
-            <kind>4</kind>
-            <string>0</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>422</id>
-        <kind>1</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
       <action>
         <libid>1</libid>
         <id>612</id>
@@ -406,58 +365,6 @@ global.current_command1 = 0;
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>424</id>
-        <kind>2</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>421</id>
-        <kind>3</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>611</id>
-        <kind>6</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>power_bar</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-        </arguments>
       </action>
     </event>
     <event eventtype="3" enumb="1">
@@ -1395,7 +1302,9 @@ global.current_command1++;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (i = 0; i &lt; global.health1; i++)
+            <string>var i;
+
+for (i = 0; i &lt; global.health1; i++)
 {
     draw_sprite(sp_heart, 0, 50 * i, 15);
 }
