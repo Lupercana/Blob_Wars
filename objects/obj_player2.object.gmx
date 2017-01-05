@@ -865,7 +865,7 @@
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>room_width - 51</string>
+            <string>room_width - 151</string>
           </argument>
           <argument>
             <kind>0</kind>
@@ -873,7 +873,7 @@
           </argument>
           <argument>
             <kind>0</kind>
-            <string>room_width</string>
+            <string>room_width - 100</string>
           </argument>
           <argument>
             <kind>0</kind>
@@ -921,7 +921,7 @@
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>room_width - 51 + 1</string>
+            <string>room_width - 150</string>
           </argument>
           <argument>
             <kind>0</kind>
@@ -929,7 +929,7 @@
           </argument>
           <argument>
             <kind>0</kind>
-            <string>room_width - 51 + 1 + power_bar * 49</string>
+            <string>room_width - 149 + power_bar * 49 </string>
           </argument>
           <argument>
             <kind>0</kind>
