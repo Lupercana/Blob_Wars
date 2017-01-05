@@ -204,7 +204,7 @@ var i = 0;
 
 while (i &lt; global.cmds_size2)
 {
-    var q = irandom(19);
+    var q = irandom(49);
 
     if (q == 0 || global.restart)
     {
@@ -214,7 +214,7 @@ while (i &lt; global.cmds_size2)
         if (r == 0 || r == 1) // minimum movement times
         {
             i++;
-            j = irandom_range(room_speed * 0.25, room_speed * 1);
+            j = irandom_range(room_speed * 0.1, room_speed * 0.25);
             if (j &gt; (global.cmds_size2 - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
                 j = global.cmds_size2 - i - 2;
             while (j &gt; 0)
