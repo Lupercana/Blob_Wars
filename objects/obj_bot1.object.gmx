@@ -193,43 +193,43 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.revert &amp;&amp; global.restart == 0)
+            <string>if (global.revert)
     global.cmds1 = global.prev_cmds1;
-else
+    
+// save prev commands
+global.prev_cmds1 = global.cmds1; 
+
+// if revert, then mutate previous working, else mutate current
+var i = 0;
+
+while (i &lt; global.cmds_size1)
 {
-    global.prev_cmds1 = global.cmds1; // save prev commands
-    
-    // mutate commands
-    var i = 0;
-    
-    while (i &lt; global.cmds_size1)
+    var q = irandom(19);
+
+    if (q == 0 || global.restart)
     {
-        var q = irandom(19);
-    
-        if (q == 0 || global.restart)
+        var r = irandom(4);
+        
+        global.cmds1[i] = r;
+        if (r == 0 || r == 1) // minimum movement times
         {
-            var r = irandom(4);
-            
-            global.cmds1[i] = r;
-            if (r == 0 || r == 1) // minimum movement times
+            i++;
+            j = irandom_range(room_speed * 0.25, room_speed * 1);
+            if (j &gt; (global.cmds_size1 - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
+                j = global.cmds_size1 - i - 2;
+            while (j &gt; 0)
             {
+                global.cmds1[i] = r;
                 i++;
-                j = irandom_range(room_speed * 0.25, room_speed * 1);
-                if (j &gt; (global.cmds_size1 - i - 2)) // 2 slots taken for misc such as indexing and original 'r'
-                    j = global.cmds_size1 - i - 2;
-                while (j &gt; 0)
-                {
-                    global.cmds1[i] = r;
-                    i++;
-                    j--;
-                }
+                j--;
             }
-            else // other than movements
-                i++;
         }
+        else // other than movements
+            i++;
     }
-    
 }
+
+global.current_command1 = 0;
 </string>
           </argument>
         </arguments>
@@ -1103,34 +1103,6 @@ global.current_command1++;
           <argument>
             <kind>13</kind>
             <string>-1</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>-1</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>1</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>-15</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>-15</string>
           </argument>
         </arguments>
       </action>
